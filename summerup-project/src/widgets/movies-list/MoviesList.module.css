@@ -1,0 +1,6 @@
+.moviesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 980px;
+    gap: 16px;
+}

@@ -1,0 +1,79 @@
+.filtersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.filterItems {
+    display: flex;
+    gap: 16px;
+    border: 1px solid yellowgreen;
+}
+
+.choicelabel,
+.Intlabel {
+    height: 22px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 16px;
+    line-height: 140%;
+}
+
+.rootParams {
+    width: 283.67px;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputParams {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+
+    width: 283.67px;
+    height: 42px;
+    background: #ffffff;
+    border: 1px solid #d5d6dc;
+    border-radius: 8px;
+}
+
+.ratingFilters {
+    display: flex;
+    flex-direction: row;
+    width: 283.67px;
+    border: 1px solid blue;
+    gap: 8px;
+}
+
+.rootNumber {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.resetFilter {
+    height: 68px;
+    font-family: "Inter";
+    font-style: normal;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    color: #7b7c88;
+    flex: none;
+    background-color: #f5f5f6;
+    border: 1px solid red;
+    padding-top: 38px;
+}
+
+.sorting {
+    border: 1px solid red;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 14px;
+}

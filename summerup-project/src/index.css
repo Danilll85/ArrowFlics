@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:0,600b");
+@import url("https://fonts.googleapis.com/css?family=Inter:0,700b");
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
