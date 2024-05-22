@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Filters.module.css";
 import { MultiSelect, NumberInput, Select } from "@mantine/core";
 
 export function Filters({ callback }) {
     const [filters, setFilters] = useState({
-        genre: null,
+        genre: [],
         year: null,
         ratingFrom: null,
         ratingTo: null,
         sortBy: "Most Popular",
     });
     const [genresChoice, setGenresChoice] = useState([]);
+    const [genresIsChoiced, setGenresIsChoiced] = useState(false);
+    const [yearIsChoiced, setYearIsChoiced] = useState(false);
+    const [fromIsChoiced, setFromIsChoiced] = useState(false);
+    const [toIsChoiced, setToIsChoiced] = useState(false);
 
     const callbackFunc = () => callback(filters);
 
@@ -39,18 +43,22 @@ export function Filters({ callback }) {
 
     const addGenreFilters = (list) => {
         console.log("genres: ", list);
+        list.length == 0 ? setGenresIsChoiced(false) : setGenresIsChoiced(true);
         changeFilters("genre", list);
     };
 
     const addYearFilters = (value) => {
+        value == null ? setYearIsChoiced(false) : setYearIsChoiced(true);
         changeFilters("year", value);
     };
 
     const addFromFilters = (value) => {
+        value == null ? setFromIsChoiced(false) : setFromIsChoiced(true);
         changeFilters("ratingFrom", value);
     };
 
     const addToFilters = (value) => {
+        value == null ? setToIsChoiced(false) : setToIsChoiced(true);
         changeFilters("ratingTo", value);
     };
 
@@ -58,20 +66,45 @@ export function Filters({ callback }) {
         await changeFilters("sortBy", value);
     };
 
+    //нужно вызвать отсда очистку select
     const resetFilters = () => {
         setFilters({
-            genre: null,
+            genre: [],
             year: null,
             ratingFrom: null,
             ratingTo: null,
-            sortBy: "Most Popular",
+            sortBy: filters["sortBy"],
         });
+
+        setGenresIsChoiced(false);
+        setYearIsChoiced(false);
+        setFromIsChoiced(false);
+        setToIsChoiced(false);
     };
 
     let largeData = [];
     let date = new Date();
     for (let i = date.getFullYear(); i >= 1900; i--) {
         largeData.push(i.toString());
+    }
+
+    let button;
+    if (genresIsChoiced || yearIsChoiced || fromIsChoiced || toIsChoiced) {
+        button = (
+            <button className={styles.resetFilter} onClick={resetFilters}>
+                Reset filters
+            </button>
+        );
+    } else {
+        button = (
+            <button
+                className={styles.resetFilter}
+                onClick={resetFilters}
+                disabled
+            >
+                Reset filtersss
+            </button>
+        );
     }
 
     return (
@@ -84,8 +117,8 @@ export function Filters({ callback }) {
                         label: styles.choicelabel,
                     }}
                     label="Genres"
+                    value={filters.genre}
                     placeholder="Select genre"
-                    // data={["Action", "Fantasy", "Crime", "Drama"]}
                     data={genresChoice}
                     id={"genre"}
                     onChange={addGenreFilters}
@@ -99,6 +132,7 @@ export function Filters({ callback }) {
                     label="Release year"
                     placeholder="Select release year"
                     data={largeData}
+                    value={filters.year}
                     searchable
                     id={"year"}
                     onChange={addYearFilters}
@@ -153,9 +187,7 @@ export function Filters({ callback }) {
                         onChange={addToFilters}
                     />
                 </div>
-                <button className={styles.resetFilter} onClick={resetFilters}>
-                    Reset filters
-                </button>
+                {button}
             </div>
             <div className={styles.sorting}>
                 <Select

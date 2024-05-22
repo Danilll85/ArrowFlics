@@ -24,7 +24,7 @@ export function SwitchMovies() {
                 >
                     <button
                         className={
-                            choice === "/"
+                            choice === "/" || choice.startsWith("/movies")
                                 ? styles.activeColor
                                 : styles.defaultColor
                         }
