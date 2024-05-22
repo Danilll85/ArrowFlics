@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Filters.module.css";
 import { MultiSelect, NumberInput, Select } from "@mantine/core";
 
@@ -10,16 +10,35 @@ export function Filters({ callback }) {
         ratingTo: null,
         sortBy: "Most Popular",
     });
+    const [genresChoice, setGenresChoice] = useState([]);
 
     const callbackFunc = () => callback(filters);
 
-    callbackFunc();
+    useEffect(() => {
+        callbackFunc();
+    }, [filters]);
+
+    useEffect(() => {
+        const fetchGenresList = async () => {
+            const genresData = await fetch(
+                "/api/genre/movie/list?language=en"
+            ).then((data) => (data = data.json()));
+            const res = genresData.genres.map((genre) => ({
+                value: `${genre.id}`,
+                label: genre.name,
+            }));
+            console.log(res);
+            setGenresChoice(res);
+        };
+        fetchGenresList();
+    }, []);
 
     const changeFilters = async (id, filterValue) => {
         setFilters((oldFilters) => ({ ...oldFilters, [id]: filterValue }));
     };
 
     const addGenreFilters = (list) => {
+        console.log("genres: ", list);
         changeFilters("genre", list);
     };
 
@@ -54,9 +73,7 @@ export function Filters({ callback }) {
     for (let i = date.getFullYear(); i >= 1900; i--) {
         largeData.push(i.toString());
     }
-    //console.log("largeData: ", largeData);
 
-    //console.log("allfilters: ", filters);
     return (
         <div className={styles.filtersContainer}>
             <div className={styles.filterItems}>
@@ -68,7 +85,8 @@ export function Filters({ callback }) {
                     }}
                     label="Genres"
                     placeholder="Select genre"
-                    data={["Action", "Fantasy", "Crime", "Drama"]}
+                    // data={["Action", "Fantasy", "Crime", "Drama"]}
+                    data={genresChoice}
                     id={"genre"}
                     onChange={addGenreFilters}
                 />
@@ -142,13 +160,15 @@ export function Filters({ callback }) {
             <div className={styles.sorting}>
                 <Select
                     label="Sort by"
+                    defaultValue={"Most Popular"}
                     data={[
                         "Most Popular",
                         "Least Popular",
                         "Most Rated",
                         "Least Rated",
+                        "Most Voted",
+                        "Least Voted",
                     ]}
-                    defaultValue={"Most Popular"}
                     classNames={{
                         label: styles.inputLabel,
                         root: styles.rootParams,
