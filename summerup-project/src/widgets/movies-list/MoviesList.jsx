@@ -7,7 +7,8 @@ import { MovieCard } from "../../shared/ui/movie-card/MovieCard";
 import { Pagination, Loader } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-import { RatingModal } from "../../shared/ui/rating-model/RatingModal";
+import { RatingModal } from "../../shared/ui/rating-modal/RatingModal";
+import notFoundMovies from "../../assets/notFoundMovies.svg";
 
 function changeFetch(options, activePage) {
     console.log("options in changeFetch: ", options);
@@ -97,7 +98,7 @@ export function MoviesList({ options }) {
 
     const onCardClick = (event, movie) => {
         if (!event.target?.closest("button")) navigate(`/movies/${movie.id}`);
-        else setModalMovie(movie.title);
+        else setModalMovie(movie);
     };
 
     useEffect(() => {
@@ -129,15 +130,6 @@ export function MoviesList({ options }) {
         fetchMoviesData(activePage);
     }, [activePage, options]);
 
-    const onStarClick = (event, movie_id) => {
-        if (event.target?.closest("button")) {
-            console.log(`yay${movie_id}`);
-        } else {
-            navigate(`/movies/${movie_id}`);
-        }
-        setClickedCard(movie_id);
-    };
-
     if (isLoading) {
         return (
             <div className={styles.loaderContainer}>
@@ -148,6 +140,14 @@ export function MoviesList({ options }) {
     }
 
     // console.log("movies: ", movies);
+    if (!movies.length) {
+        return (
+            <div className={styles.notFound}>
+                <img src={notFoundMovies} />
+                <p>We don't have such movies, look for another one</p>
+            </div>
+        );
+    }
 
     return (
         <>

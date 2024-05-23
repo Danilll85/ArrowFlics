@@ -102,7 +102,7 @@ export function Filters({ callback }) {
                 onClick={resetFilters}
                 disabled
             >
-                Reset filtersss
+                Reset filters
             </button>
         );
     }
@@ -131,8 +131,8 @@ export function Filters({ callback }) {
                     }}
                     label="Release year"
                     placeholder="Select release year"
-                    data={largeData}
                     value={filters.year}
+                    data={largeData}
                     searchable
                     id={"year"}
                     onChange={addYearFilters}
@@ -144,6 +144,7 @@ export function Filters({ callback }) {
                             label: styles.Intlabel,
                         }}
                         label="Ratings"
+                        value={filters.ratingFrom}
                         placeholder="From"
                         data={[
                             "1",
@@ -169,6 +170,7 @@ export function Filters({ callback }) {
                         }}
                         label=" "
                         placeholder="To"
+                        value={filters.ratingTo}
                         data={[
                             "1",
                             "2",
