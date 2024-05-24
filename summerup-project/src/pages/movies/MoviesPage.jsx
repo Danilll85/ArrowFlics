@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 export function MoviesPage() {
     return (
-        <div className={styles.container}>
+        <div className="movies-page-container">
             <SideBar />
             <MoviesBox />
         </div>

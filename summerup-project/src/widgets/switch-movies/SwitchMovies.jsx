@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import styles from "./SwitchMovies.module.css";
 import styles from "./SwitchMovies.module.css";
 import { Link, useLocation } from "react-router-dom";
 
@@ -6,17 +7,13 @@ export function SwitchMovies() {
     const location = useLocation();
     const [choice, setChoice] = useState(`${location.pathname}`);
 
-    // const changeColor = (event) => {
-    //     setChoice(event.target.id);
-    // };
-
     const changeRoute = (path) => {
         setChoice(path);
     };
 
     return (
         <>
-            <div className={styles.moviesContainer}>
+            <div className={styles["movies-container"]}>
                 <Link
                     to="/"
                     onClick={() => changeRoute("/")}
@@ -25,8 +22,8 @@ export function SwitchMovies() {
                     <button
                         className={
                             choice === "/" || choice.startsWith("/movies")
-                                ? styles.activeColor
-                                : styles.defaultColor
+                                ? styles["active-color"]
+                                : styles["default-color"]
                         }
                         id={"1"}
                     >
@@ -41,8 +38,8 @@ export function SwitchMovies() {
                     <button
                         className={
                             choice === "/rated"
-                                ? styles.activeColor
-                                : styles.defaultColor
+                                ? styles["active-color"]
+                                : styles["default-color"]
                         }
                         id={"2"}
                     >

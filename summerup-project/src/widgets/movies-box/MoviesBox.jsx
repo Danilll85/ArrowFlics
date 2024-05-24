@@ -12,8 +12,8 @@ export function MoviesBox() {
 
     return (
         <>
-            <div className={styles.moviesContainer}>
-                <div className={styles.header}>Movies</div>
+            <div className={styles["movies-container"]}>
+                <div className={styles["header"]}>Movies</div>
                 <Filters callback={params} />
                 <MoviesList options={movieFilters} />
             </div>

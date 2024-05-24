@@ -12,6 +12,19 @@ img {
     display: block;
 }
 
+body {
+    display: grid;
+    place-items: left;
+    overflow-x: hidden;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
 body,
 h1,
 h2,
@@ -30,8 +43,26 @@ dd {
 }
 
 button {
-    margin: 0;
-    padding: 0;
     border: none;
-    background-color: white;
+    background-color: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --white-color: #ffffff;
+    --grey: #f2f3f5;
+    --grey-100: #f5f5f6;
+    --grey-200: #eaebed;
+    --grey-300: #d5d6dc;
+    --grey-500: #acadb9;
+    --grey-600: #7b7c88;
+    --black-color: #000000;
+    --purple-600: #541f9d;
+    --purple-500-main: #9854f6;
+    --purple-400: #bd93f7;
+    --purple-300: #d1b4f8;
+    --purple-200: #e5d5fa;
+    --purple-100: #f2ecfa;
+    --yellow: #fab005;
 }

@@ -9,83 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import { RatingModal } from "../../shared/ui/rating-modal/RatingModal";
 import notFoundMovies from "../../assets/notFoundMovies.svg";
-
-function changeFetch(options, activePage) {
-    console.log("options in changeFetch: ", options);
-    let sortParam, genreParam, yearParam, fromParam, toParam;
-
-    if (options.sortBy != null) {
-        sortParam = convertSortForReq(options.sortBy);
-        console.log("sortParam: ", sortParam);
-    }
-
-    if (options.genre != null) {
-        genreParam = convertGenresIdForReq(options.genre);
-    }
-
-    if (options.year != null) {
-        yearParam = convertYearForReq(options.year);
-    }
-
-    if (options.ratingFrom != null) {
-        fromParam = Number(options.ratingFrom);
-    }
-
-    if (options.ratingTo != null) {
-        toParam = Number(options.ratingTo);
-    }
-
-    //let outputStr = `/api/discover/movie?include_adult=false&include_video=false&language=en-US&page=${activePage}9&with_genres=${genreParam}&primary_release_year=${yearParam}&vote_count.gte=${fromParam}&vote_count.lte=${toParam}&sort_by=${sortParam}`;
-    let outputStr = `/api/discover/movie?include_adult=false&include_video=false&language=en-US&page=${activePage}&`;
-    if (fromParam != null) {
-        outputStr += `&vote_average.gte=${fromParam}`;
-    }
-    if (toParam != null) {
-        outputStr += `&vote_average.lte=${toParam}`;
-    }
-
-    if (genreParam != null) {
-        outputStr += `&with_genres=${genreParam}`;
-    }
-    if (yearParam != null) {
-        outputStr += `&primary_release_year=${yearParam}`;
-    }
-    if (sortParam != null) {
-        outputStr += `&sort_by=${sortParam}`;
-    }
-
-    console.log("fetchstr: ", outputStr);
-
-    return outputStr;
-}
-
-function convertSortForReq(options) {
-    const data = {
-        "Most Popular": "popularity.desc",
-        "Least Popular": "popularity.asc",
-        "Most Rated": "vote_average.desc",
-        "Least Rated": "vote_average.asc",
-        "Most Voted": "vote_count.desc",
-        "Least Voted": "vote_count.asc",
-    };
-
-    return data[options];
-}
-
-function convertGenresIdForReq(options) {
-    let ids_str = "";
-
-    options.map((element) => {
-        ids_str += element;
-        ids_str += ",";
-    });
-
-    return ids_str;
-}
-
-function convertYearForReq(options) {
-    return Number(options);
-}
+import { changeFetch } from "./correctValues";
 
 export function MoviesList({ options }) {
     const [movies, setMovies] = useState([]);
@@ -94,7 +18,7 @@ export function MoviesList({ options }) {
     const navigate = useNavigate();
     const [opened, { open, close }] = useDisclosure(false);
     const [modalMovie, setModalMovie] = useState("");
-    console.log("options: ", options);
+    const [totalPages, setTotalPages] = useState(0);
 
     const onCardClick = (event, movie) => {
         if (!event.target?.closest("button")) navigate(`/movies/${movie.id}`);
@@ -107,8 +31,6 @@ export function MoviesList({ options }) {
 
     useEffect(() => {
         setIsLoading(true);
-        console.log("тут");
-        // console.log(genreListSelected);
         const fetchMoviesData = async (activePage = 1) => {
             let moviesData, searchstr;
 
@@ -126,23 +48,25 @@ export function MoviesList({ options }) {
             setIsLoading(false);
             console.log(moviesData.results);
             setMovies(moviesData.results);
+            setTotalPages(
+                moviesData.total_pages > 500 ? 500 : moviesData.total_pages
+            );
         };
         fetchMoviesData(activePage);
     }, [activePage, options]);
 
     if (isLoading) {
         return (
-            <div className={styles.loaderContainer}>
+            <div className={styles["loader-container"]}>
                 <Loader color="#9854f6" size="xl" />
                 <p>Loading...</p>
             </div>
         );
     }
 
-    // console.log("movies: ", movies);
     if (!movies.length) {
         return (
-            <div className={styles.notFound}>
+            <div className={styles["not-found"]}>
                 <img src={notFoundMovies} />
                 <p>We don't have such movies, look for another one</p>
             </div>
@@ -151,7 +75,7 @@ export function MoviesList({ options }) {
 
     return (
         <>
-            <div className={styles.moviesContainer}>
+            <div className={styles["movies-container"]}>
                 {movies.map((movie) => {
                     return (
                         <MovieCard
@@ -162,12 +86,29 @@ export function MoviesList({ options }) {
                         />
                     );
                 })}
-                <div className={styles.paginationBox}>
+                <div className={styles["pagination-box"]}>
                     <Pagination
-                        total={500}
+                        total={totalPages}
                         value={activePage}
                         onChange={setPage}
                         color="#9854f6"
+                        getItemProps={(page) => {
+                            if (
+                                page === activePage - 1 ||
+                                page === activePage ||
+                                page === activePage + 1 ||
+                                (activePage === 1 && page === activePage + 2) ||
+                                (activePage === totalPages &&
+                                    page === activePage - 2)
+                            ) {
+                                return {};
+                            }
+
+                            return { style: { display: "none" } };
+                        }}
+                        styles={(theme) => ({
+                            dots: { display: "none" },
+                        })}
                     />
                 </div>
             </div>

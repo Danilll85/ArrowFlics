@@ -1,4 +1,4 @@
-.sideBarHeader {
+.side-bar-header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,12 +8,12 @@
     height: 36px;
 }
 
-.sideBarImage {
+.side-bar-image {
     width: 32px;
     height: 32px;
 }
 
-.sideBarTitle {
+.side-bar-title {
     width: 135px;
     height: 36px;
     font-family: "Poppins";
@@ -22,7 +22,7 @@
     font-size: 24px;
     line-height: 36px;
     letter-spacing: -0.02em;
-    color: #9854f6;
+    color: var(--purple-500-main);
     flex: none;
     order: 1;
     flex-grow: 0;

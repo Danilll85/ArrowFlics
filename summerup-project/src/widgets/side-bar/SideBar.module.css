@@ -1,4 +1,4 @@
-.sideBarContainer {
+.side-bar-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -6,7 +6,6 @@
     height: 2644px;
     padding: 24px;
     gap: 80px;
-    /* position: absolute; */
     left: 0px;
     top: 0px;
     background: #f2ebf9;

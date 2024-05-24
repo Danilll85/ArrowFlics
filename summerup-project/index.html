@@ -1,13 +1,63 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    function scalePage() {
+      const content =
+        document.querySelector(".movies-page-container") ||
+        document.querySelector(".rated-page-container") ||
+        document.querySelector(".movie-page-container");
+
+      const designWidth = 1440;
+      const designHeight = content.offsetHeight;
+      const scaleX = window.innerWidth / designWidth;
+      const scale = scaleX;
+
+      console.log(content.offsetHeight, content.offsetWidth);
+      console.log(
+        content.offsetHeight * scale,
+        content.offsetWidth * scale
+      );
+      document.getElementById(
+        "root"
+      ).style.transform = `scale(${scale} )`;
+      document.getElementById("root").style.transformOrigin =
+        "top left";
+      document.body.style.width = `${content.offsetWidth * scale} px`;
+      console.log(document.body.style.height);
+      document.body.style.height = `${window.innerHeight * scale} px`;
+      if (content.className === "ratedContainer") {
+        document.body.style.overflowY = "hidden";
+      } else {
+        document.body.style.overflowY = "scroll";
+      }
+    }
+
+    window.addEventListener("resize", scalePage);
+
+    const observer = new MutationObserver((mutationsList, observer) => {
+      for (let mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          scalePage();
+        }
+      }
+    });
+
+    observer.observe(document.getElementById("root"), {
+      childList: true,
+      subtree: true,
+    });
+  </script>
+</body>
+
 </html>

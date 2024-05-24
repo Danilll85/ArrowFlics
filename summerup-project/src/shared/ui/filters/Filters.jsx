@@ -66,7 +66,6 @@ export function Filters({ callback }) {
         await changeFilters("sortBy", value);
     };
 
-    //нужно вызвать отсда очистку select
     const resetFilters = () => {
         setFilters({
             genre: [],
@@ -91,14 +90,14 @@ export function Filters({ callback }) {
     let button;
     if (genresIsChoiced || yearIsChoiced || fromIsChoiced || toIsChoiced) {
         button = (
-            <button className={styles.resetFilter} onClick={resetFilters}>
+            <button className={styles["reset-filter"]} onClick={resetFilters}>
                 Reset filters
             </button>
         );
     } else {
         button = (
             <button
-                className={styles.resetFilter}
+                className={styles["reset-filter"]}
                 onClick={resetFilters}
                 disabled
             >
@@ -108,13 +107,14 @@ export function Filters({ callback }) {
     }
 
     return (
-        <div className={styles.filtersContainer}>
-            <div className={styles.filterItems}>
+        <div className={styles["filters-container"]}>
+            <div className={styles["filter-items"]}>
                 <MultiSelect
                     classNames={{
-                        root: styles.rootParams,
-                        input: styles.inputParams,
-                        label: styles.choicelabel,
+                        root: styles["root-params"],
+                        input: styles["input-params"],
+                        label: styles["choice-label"],
+                        option: styles["options"],
                     }}
                     label="Genres"
                     value={filters.genre}
@@ -125,9 +125,10 @@ export function Filters({ callback }) {
                 />
                 <Select
                     classNames={{
-                        root: styles.rootParams,
-                        input: styles.inputParams,
-                        label: styles.choicelabel,
+                        root: styles["root-params"],
+                        input: styles["input-params"],
+                        label: styles["choice-label"],
+                        option: styles["options"],
                     }}
                     label="Release year"
                     placeholder="Select release year"
@@ -137,11 +138,12 @@ export function Filters({ callback }) {
                     id={"year"}
                     onChange={addYearFilters}
                 />
-                <div className={styles.ratingFilters}>
+                <div className={styles["rating-filters"]}>
                     <Select
                         classNames={{
-                            root: styles.rootNumber,
-                            label: styles.Intlabel,
+                            root: styles["root-number"],
+                            label: styles["Int-label"],
+                            option: styles["options"],
                         }}
                         label="Ratings"
                         value={filters.ratingFrom}
@@ -165,8 +167,9 @@ export function Filters({ callback }) {
                     />
                     <Select
                         classNames={{
-                            root: styles.rootNumber,
-                            label: styles.Intlabel,
+                            root: styles["root-number"],
+                            label: styles["Int-label"],
+                            option: styles["options"],
                         }}
                         label=" "
                         placeholder="To"
@@ -191,7 +194,7 @@ export function Filters({ callback }) {
                 </div>
                 {button}
             </div>
-            <div className={styles.sorting}>
+            <div className={styles["sorting"]}>
                 <Select
                     label="Sort by"
                     defaultValue={"Most Popular"}
@@ -204,8 +207,9 @@ export function Filters({ callback }) {
                         "Least Voted",
                     ]}
                     classNames={{
-                        label: styles.inputLabel,
-                        root: styles.rootParams,
+                        label: styles["input-label"],
+                        root: styles["root-params"],
+                        option: styles["options"],
                     }}
                     id={"sortBy"}
                     onChange={addSortFilters}
