@@ -1,1 +1,1 @@
-Hello, my name is Danila Kuroedov and this my react project
+Чтобы посмотреть итоговый проект, перейдите в ветку movies
